@@ -1,0 +1,205 @@
+:root {
+  --text: #111;
+  --muted: #666;
+  --line: #d8d8d8;
+  --link: #1515b8;
+  --max: 1000px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  color: var(--text);
+  background: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+}
+img { max-width: 100%; }
+a { color: var(--link); text-underline-offset: 0.12em; }
+a:hover { color: #000; }
+:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
+
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  padding: 0.5rem 0.75rem;
+  color: #fff;
+  background: #000;
+  transform: translateY(-120%);
+}
+.skip-link:focus { transform: translateY(0); }
+
+.container {
+  width: min(var(--max), calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.site-header { padding-top: 0.55rem; }
+.site-nav {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  gap: 1.7rem;
+  border-bottom: 1px solid var(--line);
+}
+.site-nav a {
+  color: var(--text);
+  text-decoration: none;
+}
+.site-nav a:hover,
+.site-nav a[aria-current="page"] { text-decoration: underline; }
+.menu-button { display: none; }
+
+.profile {
+  display: grid;
+  grid-template-columns: 280px minmax(0, 1fr);
+  gap: 3rem;
+  align-items: start;
+  padding: 4.2rem 1.25rem 2.2rem;
+}
+.profile-side { text-align: center; }
+.profile-photo {
+  width: 260px;
+  height: 266px;
+  margin: 0 auto 0.9rem;
+  border-radius: 5%;
+  object-fit: cover;
+  object-position: 50% 24%;
+}
+.profile-side p { margin: 0.75rem 0; color: var(--muted); font-size: 0.84rem; line-height: 1.45; }
+.profile-side strong { display: block; color: var(--text); }
+.profile-links { display: flex; justify-content: center; gap: 1rem; margin-top: 1rem; font-size: 0.88rem; }
+.profile-main h1 {
+  margin: -0.35rem 0 1.1rem;
+  font-size: 2rem;
+  line-height: 1.25;
+}
+.profile-main p { margin: 0 0 1rem; }
+
+.section {
+  padding: 1.2rem 1.25rem 2.4rem;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 1rem;
+}
+.section h2 {
+  margin: 0 0 1.55rem;
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+.section h2 a { color: inherit; text-decoration: none; }
+.section h2 a:hover { text-decoration: underline; }
+.section h3 { margin: 1.8rem 0 0.75rem; font-size: 1.05rem; }
+
+.paper-list { margin: 0; padding-left: 2.45rem; }
+.paper-list > li { padding-left: 0.1rem; margin-bottom: 1.8rem; }
+.paper-title { margin: 0; font-size: 1.05rem; }
+.paper-title a { font-style: italic; }
+.coauthors { margin: 0.2rem 0 0.8rem; }
+.research-question { margin: 0.8rem 0; }
+details { margin: 0.6rem 0; }
+summary { width: fit-content; cursor: pointer; color: var(--link); }
+details p { margin: 0.55rem 0 0; color: var(--muted); }
+.draft-label { color: var(--muted); font-size: 0.8rem; }
+
+.simple-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2.5rem;
+}
+.simple-grid h3 { margin-top: 0; }
+.plain-list { margin: 0; padding-left: 1.25rem; }
+.plain-list li + li { margin-top: 0.35rem; }
+
+.post-list { display: grid; gap: 1.5rem; }
+.post-preview h3 { margin: 0 0 0.25rem; }
+.post-preview p { margin: 0.2rem 0; }
+.meta { color: var(--muted); font-size: 0.85rem; }
+
+.page-heading { padding: 3rem 1.25rem 1.8rem; }
+.page-heading h1 { margin: 0 0 0.8rem; font-size: 2rem; }
+.prose { max-width: 760px; padding: 0 1.25rem 3rem; }
+.prose h2 { margin-top: 2.4rem; font-size: 1.45rem; }
+.prose h3 { margin-top: 1.8rem; font-size: 1.05rem; }
+.prose li + li { margin-top: 0.45rem; }
+
+.cv-links { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem; }
+.pdf-frame { width: 100%; height: 78vh; min-height: 600px; border: 1px solid var(--line); }
+.cv-page { margin: 0; overflow: hidden; }
+.cv-direct {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: #e7e7e7;
+}
+.cv-direct .pdf-frame { width: 100%; height: 100%; min-height: 100vh; border: 0; }
+.cv-download {
+  position: fixed;
+  top: 0.75rem;
+  right: 1.25rem;
+  z-index: 2;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--line);
+  background: #fff;
+  font-size: 0.82rem;
+}
+
+/* Long-form posts retain their original dated URLs. */
+.nav-wrap {
+  width: min(var(--max), calc(100% - 2rem));
+  min-height: 58px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+}
+.nav-wrap .brand { display: none; }
+.nav-wrap .site-nav { border: 0; }
+.nav-toggle { display: none; }
+.page-intro { width: min(760px, calc(100% - 2rem)); margin-inline: auto; padding: 3rem 0 1.5rem; }
+.page-intro .eyebrow { margin: 0 0 0.5rem; color: var(--muted); font-size: 0.85rem; }
+.page-intro h1 { margin: 0 0 0.8rem; font-size: 2rem; line-height: 1.25; }
+.page-intro .lede { margin: 0 0 0.8rem; }
+.content-grid { width: min(760px, calc(100% - 2rem)); margin-inline: auto; }
+.content-grid.section { border-top: 1px solid var(--line); padding-top: 1rem; }
+.content-grid .prose { padding-inline: 0; }
+.sidebar-card { display: none; }
+.footer-wrap { width: min(var(--max), calc(100% - 2rem)); margin-inline: auto; display: flex; justify-content: space-between; gap: 1.5rem; }
+.button-row { display: flex; flex-wrap: wrap; gap: 1rem; }
+.button { color: var(--link); }
+
+.site-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.5rem 1.25rem 2.5rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+.footer-links { display: flex; flex-wrap: wrap; gap: 1rem; }
+
+@media (max-width: 720px) {
+  .site-nav { gap: 0.9rem; overflow-x: auto; padding-bottom: 0.1rem; font-size: 0.9rem; white-space: nowrap; }
+  .profile { grid-template-columns: 1fr; gap: 2.2rem; padding-top: 2.8rem; }
+  .profile-side { max-width: 330px; margin-inline: auto; }
+  .profile-main h1 { font-size: 1.8rem; }
+  .simple-grid { grid-template-columns: 1fr; gap: 1.4rem; }
+}
+
+@media (max-width: 480px) {
+  body { font-size: 15px; }
+  .container { width: min(100% - 1rem, var(--max)); }
+  .site-nav { min-height: 52px; }
+  .profile, .section, .page-heading, .prose, .site-footer { padding-left: 0.75rem; padding-right: 0.75rem; }
+  .profile-photo { width: min(260px, 100%); }
+  .paper-list { padding-left: 1.5rem; }
+  .site-footer { flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
