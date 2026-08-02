@@ -98,12 +98,48 @@ a:hover { color: #000; }
 .paper-list > li { padding-left: 0.1rem; margin-bottom: 1.8rem; }
 .paper-title { margin: 0; font-size: 1.05rem; }
 .paper-title a { font-style: italic; }
-.coauthors { margin: 0.2rem 0 0.8rem; }
-.research-question { margin: 0.8rem 0; }
+.coauthors { margin: 0.2rem 0 0.55rem; }
+.research-question { margin: 0.55rem 0 0.7rem; }
+.paper-actions { display: flex; flex-wrap: wrap; gap: 0.55rem; margin: 0.45rem 0 0.7rem; }
+.paper-actions a {
+  padding: 0.12rem 0.52rem;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: var(--text);
+  font-size: 0.78rem;
+  text-decoration: none;
+}
+.paper-actions a:hover { border-color: var(--text); }
 details { margin: 0.6rem 0; }
 summary { width: fit-content; cursor: pointer; color: var(--link); }
-details p { margin: 0.55rem 0 0; color: var(--muted); }
-.draft-label { color: var(--muted); font-size: 0.8rem; }
+details p { max-width: 850px; margin: 0.7rem 0 0; color: var(--muted); }
+.paper-meta { margin-top: 0.9rem; color: var(--muted); font-size: 0.78rem; line-height: 1.5; }
+.paper-meta p { margin: 0.15rem 0; }
+
+.episode-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+  margin: 1.4rem 0 1.1rem;
+}
+.episode-card {
+  display: flex;
+  min-height: 230px;
+  flex-direction: column;
+  padding: 1.05rem;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: #fff;
+  transition: transform 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+}
+.episode-card:hover { transform: translateY(-2px); border-color: #aaa; box-shadow: 0 7px 18px rgba(0,0,0,0.06); }
+.episode-card h3 { margin: 0.35rem 0 0.55rem; line-height: 1.4; }
+.episode-card h3 a { color: var(--text); text-decoration: none; }
+.episode-card h3 a:hover { color: var(--link); }
+.episode-card p { margin: 0 0 1rem; color: var(--muted); font-size: 0.88rem; }
+.episode-kicker { color: var(--muted); font-size: 0.72rem; letter-spacing: 0.04em; text-transform: uppercase; }
+.listen-link { margin-top: auto; font-size: 0.82rem; text-decoration: none; }
+.podcast-platforms { margin-top: 1rem; }
 
 .simple-grid {
   display: grid;
@@ -188,6 +224,8 @@ details p { margin: 0.55rem 0 0; color: var(--muted); }
   .profile-side { max-width: 330px; margin-inline: auto; }
   .profile-main h1 { font-size: 1.8rem; }
   .simple-grid { grid-template-columns: 1fr; gap: 1.4rem; }
+  .episode-grid { grid-template-columns: 1fr; }
+  .episode-card { min-height: 0; }
 }
 
 @media (max-width: 480px) {
