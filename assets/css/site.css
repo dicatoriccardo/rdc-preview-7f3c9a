@@ -98,14 +98,16 @@ a:hover { color: #000; }
 .paper-list > li { padding-left: 0.1rem; margin-bottom: 1.8rem; }
 .paper-label {
   display: inline-block;
-  margin: 0 0 0.45rem;
-  padding: 0.16rem 0.55rem;
-  border: 1px solid #b9cbd6;
+  margin-left: 0.4rem;
+  padding: 0.1rem 0.48rem;
   border-radius: 999px;
-  color: #294e64;
-  background: #f3f7f9;
-  font-size: 0.76rem;
+  color: #fff;
+  background: #496887;
+  font-size: 0.68rem;
   font-weight: 600;
+  line-height: 1.35;
+  vertical-align: 0.1rem;
+  white-space: nowrap;
 }
 .paper-title { margin: 0; font-size: 1.05rem; }
 .paper-title a { font-style: italic; }
