@@ -55,6 +55,7 @@ The Git history shows the following sequence of website work:
 - Removed sentence-ending periods from the teaching and community entries for consistency with the rest of the CV.
 - Identified Sara Lowes and Samuel Bazzi as dissertation co-chairs while retaining the complete advisor list.
 - Rebuilt and resynchronized the website's downloadable CV.
+- Added the 2024--2025 Summer Research Grant (\$2,600), rebuilt the CV, and resynchronized the downloadable website PDF.
 
 ## Files changed in the production repository
 
