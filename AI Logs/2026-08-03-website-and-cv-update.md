@@ -57,6 +57,7 @@ The Git history shows the following sequence of website work:
 - Rebuilt and resynchronized the website's downloadable CV.
 - Added the 2024--2025 Summer Research Grant (\$2,600), rebuilt the CV, and resynchronized the downloadable website PDF.
 - Identified UC San Diego as the institution for both the Summer Research Grant and TRELS Grant, then rebuilt and resynchronized the website PDF.
+- Renamed Self-employment to Entrepreneurial Venture in the CV and aligned the homepage description with that wording.
 
 ## Files changed in the production repository
 
