@@ -56,6 +56,7 @@ The Git history shows the following sequence of website work:
 - Identified Sara Lowes and Samuel Bazzi as dissertation co-chairs while retaining the complete advisor list.
 - Rebuilt and resynchronized the website's downloadable CV.
 - Added the 2024--2025 Summer Research Grant (\$2,600), rebuilt the CV, and resynchronized the downloadable website PDF.
+- Identified UC San Diego as the institution for both the Summer Research Grant and TRELS Grant, then rebuilt and resynchronized the website PDF.
 
 ## Files changed in the production repository
 
