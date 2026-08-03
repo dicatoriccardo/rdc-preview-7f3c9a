@@ -47,6 +47,15 @@ The Git history shows the following sequence of website work:
 - Preserved the existing IHS and TRELS funding information.
 - Replaced the website's downloadable CV with the newly compiled PDF.
 
+## Follow-up consistency update on 2026-08-03
+
+- Added the verified host universities for IRES, both ASREC editions, SOCAE, and DevPEC on the CV, homepage, and Research page.
+- Replaced Data Analysis and Statistical Decision-Making with Quantitative Methods III in the teaching section.
+- Added an Undergraduate label before the Bocconi University courses.
+- Removed sentence-ending periods from the teaching and community entries for consistency with the rest of the CV.
+- Identified Sara Lowes and Samuel Bazzi as dissertation co-chairs while retaining the complete advisor list.
+- Rebuilt and resynchronized the website's downloadable CV.
+
 ## Files changed in the production repository
 
 - `index.html`
