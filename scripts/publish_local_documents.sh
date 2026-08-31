@@ -21,13 +21,13 @@ fi
 trap 'rmdir "$LOCK_DIR" 2>/dev/null || true' EXIT INT TERM
 
 validate_pdf() {
-  local path=$1
-  if [[ ! -s "$path" ]]; then
-    log "Not publishing: missing or empty PDF: $path"
+  local pdf_path=$1
+  if [[ ! -s "$pdf_path" ]]; then
+    log "Not publishing: missing or empty PDF: $pdf_path"
     return 1
   fi
-  if [[ "$(head -c 5 "$path")" != "%PDF-" ]]; then
-    log "Not publishing: file is not a PDF: $path"
+  if [[ "$(head -c 5 "$pdf_path")" != "%PDF-" ]]; then
+    log "Not publishing: file is not a PDF: $pdf_path"
     return 1
   fi
 
@@ -38,8 +38,8 @@ validate_pdf() {
       break
     fi
   done
-  if [[ -n "$pdfinfo_path" ]] && ! "$pdfinfo_path" "$path" >/dev/null 2>&1; then
-    log "Not publishing: PDF validation failed: $path"
+  if [[ -n "$pdfinfo_path" ]] && ! "$pdfinfo_path" "$pdf_path" >/dev/null 2>&1; then
+    log "Not publishing: PDF validation failed: $pdf_path"
     return 1
   fi
 }
