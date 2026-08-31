@@ -1,0 +1,70 @@
+name: Publish CV and job market paper
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: publish-documents
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out website
+        uses: actions/checkout@v6
+
+      - name: Compile CV from LaTeX
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: riccardo-di-cato-cv.tex
+          working_directory: document-sources
+          args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
+
+      - name: Validate and publish documents
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          cv_source="document-sources/riccardo-di-cato-cv.pdf"
+          cv_public="assets/docs/riccardo-di-cato-cv.pdf"
+          jmp_source="document-sources/DiCatoJMP.pdf"
+          jmp_public="assets/docs/DiCatoJMP.pdf"
+
+          test -s "$cv_source"
+          test "$(head -c 5 "$cv_source")" = "%PDF-"
+          cp "$cv_source" "$cv_public"
+
+          if test -f "$jmp_source"; then
+            test -s "$jmp_source"
+            test "$(head -c 5 "$jmp_source")" = "%PDF-"
+            cp "$jmp_source" "$jmp_public"
+          fi
+
+          python3 scripts/version_document_links.py "${GITHUB_SHA::12}"
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload website
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: .
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy website
+        id: deployment
+        uses: actions/deploy-pages@v4
