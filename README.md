@@ -3,9 +3,9 @@
 The final CV and job market paper are published from the sibling folder named
 `Website Files - CHANGE HERE`.
 
-The macOS background publisher checks that folder every 30 seconds. When either
-PDF changes, it validates the file, copies it to the website, refreshes PDF link
-versions, and publishes the update to GitHub Pages.
+The macOS background publisher is event-driven. It remains idle until either
+PDF changes; it then validates the file, copies it to the website, refreshes PDF
+link versions, and publishes the update to GitHub Pages.
 
 The public URLs remain stable:
 

@@ -9,10 +9,11 @@
     <string>/bin/zsh</string>
     <string>__PUBLISHER_SCRIPT__</string>
   </array>
-  <key>RunAtLoad</key>
-  <true/>
-  <key>StartInterval</key>
-  <integer>30</integer>
+  <key>WatchPaths</key>
+  <array>
+    <string>__CV_PDF__</string>
+    <string>__JMP_PDF__</string>
+  </array>
   <key>ProcessType</key>
   <string>Background</string>
   <key>StandardOutPath</key>
