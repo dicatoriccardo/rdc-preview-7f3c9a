@@ -44,6 +44,24 @@ validate_pdf() {
   fi
 }
 
+wait_for_live_version() {
+  local expected_version=$1
+  local max_attempts=39
+  local attempt=1
+
+  while (( attempt <= max_attempts )); do
+    if /usr/bin/curl -fsSL --connect-timeout 10 --max-time 20 \
+      "https://riccardodicato.com/?publisher-check=${expected_version}-${attempt}" 2>/dev/null \
+      | /usr/bin/grep -Fq "DiCatoJMP.pdf?v=${expected_version}"; then
+      return 0
+    fi
+    /bin/sleep 20
+    (( attempt++ ))
+  done
+
+  return 1
+}
+
 cd "$REPO_DIR" || exit 1
 
 # Stay completely idle until a document changes or an earlier upload needs a
@@ -64,6 +82,7 @@ if ! /usr/bin/git pull --rebase --autostash origin main; then
 fi
 
 changed=0
+publish_version=""
 if ! cmp -s "$CV_SOURCE" "$CV_PUBLIC"; then
   validate_pdf "$CV_SOURCE" || exit 1
   /bin/cp -f "$CV_SOURCE" "$CV_PUBLIC"
@@ -77,8 +96,8 @@ if ! cmp -s "$JMP_SOURCE" "$JMP_PUBLIC"; then
 fi
 
 if (( changed )); then
-  version=$(date -u '+%Y%m%d%H%M%S')
-  /usr/bin/python3 scripts/version_document_links.py "$version"
+  publish_version=$(date -u '+%Y%m%d%H%M%S')
+  /usr/bin/python3 scripts/version_document_links.py "$publish_version"
   /usr/bin/git add -- assets/docs/riccardo-di-cato-cv.pdf assets/docs/DiCatoJMP.pdf '*.html'
   if ! /usr/bin/git diff --cached --quiet; then
     /usr/bin/git commit -m "Update website CV and job market paper" || exit 1
@@ -91,5 +110,32 @@ if [[ $(/usr/bin/git rev-list --count origin/main..HEAD) -gt 0 ]]; then
   else
     log "Upload failed; the publisher will retry automatically."
     exit 1
+  fi
+fi
+
+# A successful git push does not guarantee that GitHub Pages completed its
+# separate deployment. Verify the exact document version on the public site.
+# If GitHub Pages times out, request one fresh deployment and check it once
+# more. This bounded work happens only after a PDF-triggered publication.
+if [[ -n "$publish_version" ]]; then
+  log "Waiting for website deployment to become visible."
+  if wait_for_live_version "$publish_version"; then
+    log "Website deployment verified successfully."
+  else
+    log "Website deployment was not visible; requesting one automatic retry."
+    if ! /usr/bin/git commit --allow-empty -m "Retry website publication"; then
+      log "Could not create the automatic deployment retry."
+      exit 1
+    fi
+    if ! /usr/bin/git push origin main; then
+      log "Could not upload the automatic deployment retry."
+      exit 1
+    fi
+    if wait_for_live_version "$publish_version"; then
+      log "Website deployment verified after the automatic retry."
+    else
+      log "GitHub Pages did not publish after one automatic retry; manual attention is required."
+      exit 1
+    fi
   fi
 fi
