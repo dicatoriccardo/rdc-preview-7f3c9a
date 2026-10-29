@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Add a cache-busting version to public CV and JMP links."""
+"""Add a cache-busting version to public website-document links."""
 
 from __future__ import annotations
 
@@ -11,6 +11,7 @@ from pathlib import Path
 DOCUMENTS = (
     "riccardo-di-cato-cv.pdf",
     "DiCatoJMP.pdf",
+    "CantilloDiCato_PornographyRestrictions.pdf",
 )
 
 

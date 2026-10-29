@@ -5,10 +5,12 @@ set -u
 SCRIPT_DIR=${0:A:h}
 REPO_DIR=${SCRIPT_DIR:h}
 CHANGE_DIR="${REPO_DIR:h}/Website Files - CHANGE HERE"
-CV_SOURCE="$CHANGE_DIR/CV/riccardo-di-cato-cv.pdf"
+CV_SOURCE="/Users/dicat/Dropbox/Il mio PC (LAPTOP-631VRJ0Q)/Desktop/Ricky/Università/PhD/Job Market/CV/Academic/Riccardo Di Cato - Academic CV.pdf"
 JMP_SOURCE="$CHANGE_DIR/Job Market Paper/DiCatoJMP.pdf"
+PORN_SOURCE="$CHANGE_DIR/Pornography Paper/CantilloDiCato_PornographyRestrictions.pdf"
 CV_PUBLIC="$REPO_DIR/assets/docs/riccardo-di-cato-cv.pdf"
 JMP_PUBLIC="$REPO_DIR/assets/docs/DiCatoJMP.pdf"
+PORN_PUBLIC="$REPO_DIR/assets/docs/CantilloDiCato_PornographyRestrictions.pdf"
 LOCK_DIR="/tmp/riccardo-website-documents.lock"
 
 log() {
@@ -50,9 +52,10 @@ wait_for_live_version() {
   local attempt=1
 
   while (( attempt <= max_attempts )); do
-    if /usr/bin/curl -fsSL --connect-timeout 10 --max-time 20 \
-      "https://riccardodicato.com/?publisher-check=${expected_version}-${attempt}" 2>/dev/null \
-      | /usr/bin/grep -Fq "DiCatoJMP.pdf?v=${expected_version}"; then
+    page=$(/usr/bin/curl -fsSL --connect-timeout 10 --max-time 20 \
+      "https://riccardodicato.com/?publisher-check=${expected_version}-${attempt}" 2>/dev/null) || page=""
+    if [[ "$page" == *"DiCatoJMP.pdf?v=${expected_version}"* && \
+          "$page" == *"CantilloDiCato_PornographyRestrictions.pdf?v=${expected_version}"* ]]; then
       return 0
     fi
     /bin/sleep 20
@@ -68,10 +71,12 @@ cd "$REPO_DIR" || exit 1
 # retry. This avoids unnecessary network traffic every 30 seconds.
 cv_changed=0
 jmp_changed=0
+porn_changed=0
 cmp -s "$CV_SOURCE" "$CV_PUBLIC" || cv_changed=1
 cmp -s "$JMP_SOURCE" "$JMP_PUBLIC" || jmp_changed=1
+cmp -s "$PORN_SOURCE" "$PORN_PUBLIC" || porn_changed=1
 unpushed=$(/usr/bin/git rev-list --count origin/main..HEAD)
-if (( ! cv_changed && ! jmp_changed && ! unpushed )); then
+if (( ! cv_changed && ! jmp_changed && ! porn_changed && ! unpushed )); then
   exit 0
 fi
 
@@ -95,12 +100,18 @@ if ! cmp -s "$JMP_SOURCE" "$JMP_PUBLIC"; then
   changed=1
 fi
 
+if ! cmp -s "$PORN_SOURCE" "$PORN_PUBLIC"; then
+  validate_pdf "$PORN_SOURCE" || exit 1
+  /bin/cp -f "$PORN_SOURCE" "$PORN_PUBLIC"
+  changed=1
+fi
+
 if (( changed )); then
   publish_version=$(date -u '+%Y%m%d%H%M%S')
   /usr/bin/python3 scripts/version_document_links.py "$publish_version"
-  /usr/bin/git add -- assets/docs/riccardo-di-cato-cv.pdf assets/docs/DiCatoJMP.pdf '*.html'
+  /usr/bin/git add -- assets/docs/riccardo-di-cato-cv.pdf assets/docs/DiCatoJMP.pdf assets/docs/CantilloDiCato_PornographyRestrictions.pdf '*.html'
   if ! /usr/bin/git diff --cached --quiet; then
-    /usr/bin/git commit -m "Update website CV and job market paper" || exit 1
+    /usr/bin/git commit -m "Update website documents" || exit 1
   fi
 fi
 
